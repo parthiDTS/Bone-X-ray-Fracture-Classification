@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bone Fracture Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<style>
+    body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    text-align: center;
+    margin: 0;
+    padding: 40px;
+}
+
+.fractured { color: #d9534f; font-weight: bold; }
+.not-fractured { color: #28a745; font-weight: bold; }
+
+.container {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #2b6777;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    background: #52ab98;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #40897a;
+}
+
+.result {
+    margin-top: 30px;
+}
+
+.result span {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+img {
+    margin-top: 15px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+</style>
+<body>
+    <div class="container">
+        <h1>🦴 Bone Fracture X-ray Classification</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h2>Prediction: 
+                {% if prediction == 'fractured' %}
+                    <span class="fractured">{{ prediction }}</span>
+                {% elif prediction == 'not fractured' %}
+                    <span class="not-fractured">{{ prediction }}</span>
+                {% else %}
+                    <span>{{ prediction }}</span>
+                {% endif %}
+            </h2>
+            {% if image_url %}
+                <img src="{{ image_url }}" alt="Uploaded X-ray">
+            {% else %}
+                <p style="color: #888;">No image available.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
